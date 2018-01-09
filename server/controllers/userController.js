@@ -12,3 +12,17 @@ exports.create = (req, res) => {
 		res.status(201).send('User created');
 	});
 };
+
+exports.findOneForLogin = (user, done) => {
+	UserModule.findOneForLogin(user).then((response) => {
+		done(null, response);
+	})
+};
+
+exports.login = (user, done) => {
+	res.status(200).send('Login page');
+};
+
+exports.home = (user, done) => {
+	res.status(200).send('Home');
+};

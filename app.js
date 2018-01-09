@@ -3,6 +3,7 @@ var express       = require('express'),
 	favicon       = require('serve-favicon'),
 	logger        = require('morgan'),
 	cookieParser  = require('cookie-parser'),
+	passport      = require('passport'),
 	bodyParser    = require('body-parser'),
 	routes        = require('./server/routes'),
 	db            = require('./server/models');
@@ -26,6 +27,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // API declarations
 routes(app);

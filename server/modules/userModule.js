@@ -16,3 +16,13 @@ exports.create = (user) => {
 		});
 	});
 };
+
+exports.findOneForLogin = (user) => {
+	return new Promise((resolve, reject) => {
+		User.findOne(user).then((user) => {
+			resolve(user);
+		}).catch((err) => {
+			reject(err);
+		});
+	});
+};

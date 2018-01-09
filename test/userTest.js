@@ -14,7 +14,23 @@ describe('UserApi', function() {
 		})
 		.expect(201)
 		.end((err, res) => {
-			console.log('We have an answer');
+			res.text.should.be.eql('User created');
+			done();
+		})
+	});
+
+	it('should log in', function(done) {
+		user
+		.post('/login')
+		.send({
+			username: 'AsgeirFri',
+			password: 'password'
+		})
+		.expect(302)
+		.end((err, res) => {
+			let data = JSON.parse(res.text);
+			data.user.username.should.be.eql('AsgeirFri');
+			should.not.exist(data.user.password);
 			done();
 		})
 	});

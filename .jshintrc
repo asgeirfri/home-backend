@@ -1,0 +1,20 @@
+{
+	"node": true,
+	"esnext": true,
+
+	"curly": true,
+	"latedef": true,
+	"quotmark": true,
+	"undef": false,
+	"unused": false,
+	"trailing": true,
+
+	"globals": {
+		"done": false,
+		"describe": false,
+		"it": false,
+		"$": false,
+		"before": false
+	}
+}
+  
