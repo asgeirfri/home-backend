@@ -2,9 +2,15 @@ var app       = require('../app'),
 	assert    = require('assert'),
 	should    = require('should'),
 	request   = require('supertest'),
-	user      = request.agent(app);
+	user      = request.agent(app),
+	mongoose = require('mongoose');
 
 describe('UserApi', function() {
+	after((done) => {
+		console.log('Deleting test database');
+		mongoose.connection.db.dropDatabase(done);
+	});
+
 	it('should create user', function(done) {
 		user
 		.post('/users/create')
