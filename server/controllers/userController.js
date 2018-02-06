@@ -11,7 +11,7 @@ exports.create = (req, res) => {
 	};
 	UserModule.create(user).then((response) => {
 		// create a token
-		let token = jwt.sign({ id: user._id }, process.env.SECRET, {
+		let token = jwt.sign({ id: response._id }, process.env.SECRET, {
 			expiresIn: 86400 // expires in 24 hours
 		});
 		user.password = null;

@@ -1,10 +1,12 @@
-var home = require('./server/models/home');
-var Hb = new home({ title: 'Haaleitisbraut' });
+var HomeModule     = require('../modules/HomeModule');
 
-console.log(Hb);
-console.log('Frankly, my dear, I dont give a damn.');
-Hb.save()
-	.then(() => { console.log('YAS'); })
-	.catch((reason) => {
-		console.error('error', reason);
-}); 
+exports.create = (req, res, next) => {
+	let home = {
+		name: req.body.name,
+		adminId: req.userId
+	};
+	HomeModule.create(home).then((response) => {
+		res.status(201).send({home: home});
+	});
+};
+

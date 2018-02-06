@@ -11,7 +11,7 @@ exports.create = (user) => {
 			if (err) {
 				reject(err);
 			} else {
-			  resolve('A user has been created');
+				resolve(newUser);
 			}
 		});
 	});
