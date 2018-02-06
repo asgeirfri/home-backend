@@ -5,6 +5,11 @@ var app       = require('../app'),
 	user      = request.agent(app),
 	mongoose = require('mongoose');
 
+var user1 = {
+	username: 'AsgeirFri',
+	password: 'password'
+};
+
 describe('UserApi', function() {
 	after((done) => {
 		console.log('Deleting test database');
@@ -15,12 +20,15 @@ describe('UserApi', function() {
 		user
 		.post('/users/create')
 		.send({
-			username: 'AsgeirFri',
-			password: 'password'
+			username: user1.username,
+			password: user1.password
 		})
 		.expect(201)
 		.end((err, res) => {
-			res.text.should.be.eql('User created');
+			let data = JSON.parse(res.text);
+			data.user.username.should.be.eql(user1.username);
+			should(data.user.password).not.be.ok();
+			should.exist(data.token);
 			done();
 		})
 	});
@@ -29,14 +37,51 @@ describe('UserApi', function() {
 		user
 		.post('/login')
 		.send({
-			username: 'AsgeirFri',
-			password: 'password'
+			username: user1.username,
+			password: user1.password
 		})
 		.expect(302)
 		.end((err, res) => {
 			let data = JSON.parse(res.text);
-			data.user.username.should.be.eql('AsgeirFri');
-			should.not.exist(data.user.password);
+			data.user.username.should.be.eql(user1.username);
+			should(data.user.password).not.be.ok();
+			should.exist(data.token);
+			user1.token = data.token;
+			done();
+		})
+	});
+
+	it('should get me', function(done) {
+		user
+		.get('/me')
+		.set('x-access-token', user1.token)
+		.expect(200)
+		.end((err, res) => {
+			let data = JSON.parse(res.text);
+			should.exist(data.id);
+			done();
+		})
+	});
+
+	it('should not get me', function(done) {
+		user
+		.get('/me')
+		.expect(401)
+		.end((err, res) => {
+			let data = JSON.parse(res.text);
+			data.auth.should.be.false();
+			done();
+		})
+	});
+
+	it('should not get me', function(done) {
+		user
+		.get('/me')
+		.set('x-access-token', 'SKRRRRRA')
+		.expect(500)
+		.end((err, res) => {
+			let data = JSON.parse(res.text);
+			data.auth.should.be.false();
 			done();
 		})
 	});
