@@ -15,3 +15,16 @@ exports.create = (home) => {
 		});
 	});
 };
+
+exports.findById = (id) => {
+	return Home.findOne({_id: id});
+}
+
+exports.addTask = (home, task) => {
+	return new Promise((resolve, reject) => {
+		home.tasks.push(task);
+		Home.findOneAndUpdate({_id: home._id}, home).then((home) => {
+			resolve(home);
+		})
+	})
+}

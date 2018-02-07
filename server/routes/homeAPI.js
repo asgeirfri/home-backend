@@ -15,6 +15,8 @@ let isAuthenticated = (req, res, next) => {
 	});
 }
 
-router.post('/home/create', isAuthenticated, HomeController.create);
+router.post('/homes/create', isAuthenticated, HomeController.createHome);
+router.get('/homes/:homeId', isAuthenticated, HomeController.getHome);
+router.post('/homes/:homeId/tasks/create', isAuthenticated, HomeController.createTask);
 
 module.exports = router;

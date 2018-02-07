@@ -14,8 +14,8 @@ exports.create = (req, res) => {
 		let token = jwt.sign({ id: response._id }, process.env.SECRET, {
 			expiresIn: 86400 // expires in 24 hours
 		});
-		user.password = null;
-		res.status(201).send({user: user, token: token});
+		response.password = null;
+		res.status(201).send({user: response, token: token});
 	});
 };
 
